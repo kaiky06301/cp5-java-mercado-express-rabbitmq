@@ -1,0 +1,8 @@
+{
+  "nomeCliente": "Ana Souza",
+  "emailCliente": "ana@tranquilo.com",
+  "itens": [
+    { "produtoId": 1, "quantidade": 3 },
+    { "produtoId": 8, "quantidade": 1 }
+  ]
+}

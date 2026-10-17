@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mercado Express - Carrinho</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <h2>🛒 Carrinho</h2>
+    <div th:if="${erro}" class="alert erro" th:text="${erro}"></div>
+    <div th:if="${#lists.isEmpty(linhas)}" class="alert info">Seu carrinho está vazio. <a th:href="@{/}">Voltar à loja</a></div>
+    <div th:unless="${#lists.isEmpty(linhas)}">
+        <div class="tabela-wrap">
+        <table>
+            <tr><th>Produto</th><th>Preço</th><th>Qtd</th><th>Subtotal</th><th></th></tr>
+            <tr th:each="l : ${linhas}">
+                <td th:text="${l.produto.emoji + ' ' + l.produto.nome}"></td>
+                <td th:text="${'R$ ' + #numbers.formatDecimal(l.produto.precoVenda, 1, 'POINT', 2, 'COMMA')}"></td>
+                <td th:text="${l.quantidade}"></td>
+                <td th:text="${'R$ ' + #numbers.formatDecimal(l.subtotal, 1, 'POINT', 2, 'COMMA')}"></td>
+                <td>
+                    <form th:action="@{/carrinho/remover}" method="post">
+                        <input type="hidden" name="produtoId" th:value="${l.produto.id}">
+                        <button class="btn-del" type="submit">Remover</button>
+                    </form>
+                </td>
+            </tr>
+            <tr><td colspan="3" style="text-align:right"><b>Total</b></td>
+                <td colspan="2"><b th:text="${'R$ ' + #numbers.formatDecimal(total, 1, 'POINT', 2, 'COMMA')}"></b></td></tr>
+        </table>
+        </div>
+        <div class="card" style="margin-top:18px;max-width:520px">
+            <h3 style="margin-top:0">Finalizar compra</h3>
+            <p style="color:#6b7280;font-size:.9rem">O pagamento é enviado ao <b>Banco Tranquilo</b> pelo RabbitMQ. Se for aprovado, você recebe um e-mail de confirmação.</p>
+            <form th:action="@{/carrinho/finalizar}" method="post" style="display:grid;gap:10px">
+                <input name="nomeCliente" placeholder="Seu nome" required>
+                <input name="emailCliente" type="email" placeholder="E-mail (mesmo da conta no Banco Tranquilo)" required>
+                <button type="submit">💳 Pagar com Banco Tranquilo</button>
+            </form>
+            <p style="color:#6b7280;font-size:.8rem">Contas de teste: ana@tranquilo.com (R$ 5.000), bruno@tranquilo.com (R$ 1.500), carla@tranquilo.com (R$ 20, saldo insuficiente).</p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

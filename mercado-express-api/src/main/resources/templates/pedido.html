@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta th:if="${pedido != null and pedido.status.name() == 'AGUARDANDO_PAGAMENTO'}" http-equiv="refresh" content="2">
+    <title>Mercado Express - Pedido</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <div th:if="${pedido == null}" class="alert erro">Pedido não encontrado.</div>
+    <div th:if="${pedido != null}" class="card" style="max-width:640px">
+        <h2 style="margin-top:0">Pedido <span th:text="${pedido.numeroPedido}"></span></h2>
+        <p>Status: <span class="badge" th:classappend="${pedido.status.name()}" th:text="${pedido.status}"></span></p>
+        <div th:if="${pedido.status.name() == 'AGUARDANDO_PAGAMENTO'}" class="alert info">⏳ Aguardando resposta do Banco Tranquilo... (a página atualiza sozinha)</div>
+        <div th:if="${pedido.status.name() == 'PAGO'}" class="alert ok">✅ Pagamento aprovado! Código <b th:text="${pedido.codigoAutorizacao}"></b>. Um e-mail de confirmação foi enviado para <b th:text="${pedido.emailCliente}"></b>.</div>
+        <div th:if="${pedido.status.name() == 'RECUSADO'}" class="alert erro">❌ Pagamento recusado: <span th:text="${pedido.mensagemBanco}"></span></div>
+        <table>
+            <tr><th>Produto</th><th>Qtd</th><th>Subtotal</th></tr>
+            <tr th:each="i : ${pedido.itens}">
+                <td th:text="${i.produto.emoji + ' ' + i.produto.nome}"></td>
+                <td th:text="${i.quantidade}"></td>
+                <td th:text="${'R$ ' + #numbers.formatDecimal(i.subtotal, 1, 'POINT', 2, 'COMMA')}"></td>
+            </tr>
+            <tr><td colspan="2" style="text-align:right"><b>Total</b></td>
+                <td><b th:text="${'R$ ' + #numbers.formatDecimal(pedido.valorTotal, 1, 'POINT', 2, 'COMMA')}"></b></td></tr>
+        </table>
+        <p style="margin-top:16px"><a class="btn" th:href="@{/}">Continuar comprando</a></p>
+    </div>
+</main>
+</body>
+</html>

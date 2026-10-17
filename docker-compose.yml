@@ -1,0 +1,33 @@
+# Infra do CP5 Parte 2 - Mercado Express + Banco Tranquilo
+# Subir:  docker compose up -d
+services:
+
+  rabbitmq:
+    image: "rabbitmq:3.13-management"
+    container_name: rabbitmq-mercado-express
+    ports:
+      - "5672:5672"     # AMQP (aplicacoes)
+      - "15672:15672"   # Dashboard: http://localhost:15672 (guest/guest)
+
+  postgres:
+    image: "postgres:16-alpine"
+    container_name: postgres-mercado-express
+    environment:
+      POSTGRES_DB: mercado
+      POSTGRES_USER: mercado
+      POSTGRES_PASSWORD: mercado123
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata-mercado:/var/lib/postgresql/data
+
+  mailhog:
+    # Mailpit = sucessor do MailHog (mesmas portas: SMTP 1025 / Web 8025), roda nativo em Mac M1/M2
+    image: "axllent/mailpit:latest"
+    container_name: mailhog-mercado-express
+    ports:
+      - "1025:1025"     # SMTP
+      - "8025:8025"     # Caixa de e-mail: http://localhost:8025
+
+volumes:
+  pgdata-mercado:

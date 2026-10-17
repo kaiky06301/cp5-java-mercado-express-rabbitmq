@@ -1,0 +1,245 @@
+{
+  "info": {
+    "name": "CP5 Parte 2 - Mercado Express + Banco Tranquilo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "numeroPedido",
+      "value": "COLE_AQUI_O_NUMERO"
+    }
+  ],
+  "item": [
+    {
+      "name": "1 - Listar produtos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/produtos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "produtos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "2 - Compra APROVADA (Ana, saldo R$ 5.000)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pagamentos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pagamentos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nomeCliente\": \"Ana Souza\",\n  \"emailCliente\": \"ana@tranquilo.com\",\n  \"itens\": [\n    {\n      \"produtoId\": 1,\n      \"quantidade\": 3\n    },\n    {\n      \"produtoId\": 8,\n      \"quantidade\": 1\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "pm.collectionVariables.set('numeroPedido', r.numeroPedido);",
+              "pm.test('Pedido aceito (202)', () => pm.response.to.have.status(202));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 - Compra RECUSADA - saldo insuficiente (Carla, R$ 20)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pagamentos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pagamentos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nomeCliente\": \"Carla Dias\",\n  \"emailCliente\": \"carla@tranquilo.com\",\n  \"itens\": [\n    {\n      \"produtoId\": 6,\n      \"quantidade\": 2\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "pm.collectionVariables.set('numeroPedido', r.numeroPedido);",
+              "pm.test('Pedido aceito (202)', () => pm.response.to.have.status(202));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 - Compra RECUSADA - conta inexistente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pagamentos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pagamentos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nomeCliente\": \"Zeca\",\n  \"emailCliente\": \"zeca@naoexiste.com\",\n  \"itens\": [\n    {\n      \"produtoId\": 2,\n      \"quantidade\": 1\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "pm.collectionVariables.set('numeroPedido', r.numeroPedido);",
+              "pm.test('Pedido aceito (202)', () => pm.response.to.have.status(202));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 - Erro de estoque (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pagamentos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pagamentos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nomeCliente\": \"Bruno Lima\",\n  \"emailCliente\": \"bruno@tranquilo.com\",\n  \"itens\": [\n    {\n      \"produtoId\": 3,\n      \"quantidade\": 999\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "6 - Consultar status do pedido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pagamentos/{{numeroPedido}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pagamentos",
+            "{{numeroPedido}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7 - E-mails enviados (controle no BD)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/emails",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "emails"
+          ]
+        }
+      }
+    },
+    {
+      "name": "8 - Dados do dashboard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/dashboard",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "dashboard"
+          ]
+        }
+      }
+    }
+  ]
+}

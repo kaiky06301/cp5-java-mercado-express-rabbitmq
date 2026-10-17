@@ -1,0 +1,19 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: banco-tranquilo-worker
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/mercado}
+    username: ${DB_USER:mercado}
+    password: ${DB_PASSWORD:mercado123}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false

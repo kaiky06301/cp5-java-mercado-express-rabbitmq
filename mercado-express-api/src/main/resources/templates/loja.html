@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mercado Express - Loja</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <div th:if="${msg}" class="alert ok" th:text="${msg}"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <h2>Produtos</h2>
+        <a class="btn" th:href="@{/carrinho}">🛒 Ver carrinho (<span th:text="${qtdCarrinho}">0</span>)</a>
+    </div>
+    <div class="grid">
+        <div class="card produto" th:each="p : ${produtos}">
+            <div class="emoji" th:text="${p.emoji}">🍌</div>
+            <div class="cat" th:text="${p.categoria}">Categoria</div>
+            <h3 th:text="${p.nome}">Produto</h3>
+            <div class="preco" th:text="${'R$ ' + #numbers.formatDecimal(p.precoVenda, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</div>
+            <div class="estoque" th:text="${'Estoque: ' + p.estoque}">Estoque</div>
+            <form th:action="@{/carrinho/adicionar}" method="post" style="display:flex;gap:8px;margin-top:10px">
+                <input type="hidden" name="produtoId" th:value="${p.id}">
+                <input type="number" name="quantidade" value="1" min="1" th:max="${p.estoque}">
+                <button type="submit" th:disabled="${p.estoque == 0}">Adicionar</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>
