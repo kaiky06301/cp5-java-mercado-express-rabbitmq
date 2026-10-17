@@ -1,0 +1,48 @@
+CHECKPOINT 5 - PARTE 2 (Microsservicos com RabbitMQ - Spring de Mensageria com API e e-mail)
+Java Advanced - Prof. Dr. Marcel Stefan Wagner
+Curso: Tecnologia em Analise e Desenvolvimento de Sistemas (TDS) - Turma: 2TDSR
+
+INTEGRANTES
+Erick Bernardes Bradaschia - RM565733
+Gabriel Santos Claudino - RM564054
+Jonathan Moreira Gomes - RM565060
+Kaiky de Oliveira Silva - RM566067
+Lucas Fortes de Lima - RM559523
+
+GITHUB DO PROJETO (README completo com descricao, imagens e exemplos):
+https://github.com/kaiky06301/cp5-java-mercado-express-rabbitmq
+
+IDE UTILIZADA: IntelliJ IDEA
+
+VIDEO (YouTube nao listado):
+LINK_VIDEO
+
+CONFIGURACAO DO BANCO DE DADOS (PostgreSQL 16 - docker-compose.yml)
+Host: localhost | Porta: 5433 | Database: mercado | Usuario: mercado | Senha: mercado123
+JDBC: jdbc:postgresql://localhost:5433/mercado
+
+RABBITMQ: localhost:5672 | Dashboard: http://localhost:15672 (guest/guest)
+E-MAIL (MailHog/Mailpit): SMTP localhost:1025 | Caixa: http://localhost:8025
+
+EXEMPLO DE REQUISICAO DE COMPRA (Postman/Insomnia)
+POST http://localhost:8080/pagamentos
+Content-Type: application/json
+
+{
+  "nomeCliente": "Ana Souza",
+  "emailCliente": "ana@tranquilo.com",
+  "itens": [
+    { "produtoId": 1, "quantidade": 3 },
+    { "produtoId": 8, "quantidade": 1 }
+  ]
+}
+
+Consultar o resultado: GET http://localhost:8080/pagamentos/{numeroPedido}
+Collection completa do Postman: testes/CP5-Mercado-Express.postman_collection.json
+Script de testes: testes/testar-fluxo.sh
+
+COMO RODAR
+1) docker compose up -d
+2) cd banco-tranquilo-worker && mvn spring-boot:run   (porta 9090)
+3) cd mercado-express-api && mvn spring-boot:run      (porta 8080)
+Loja: http://localhost:8080  |  Dashboard gerencia: http://localhost:8080/dashboard
