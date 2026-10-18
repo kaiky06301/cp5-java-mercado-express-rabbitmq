@@ -16,7 +16,7 @@ Quando o Banco Tranquilo **aprova** a compra, o Mercado Express marca o pedido c
 | 🐇 **Broker** | RabbitMQ 3.13 (Docker), Dashboard em http://localhost:15672 (guest/guest) |
 | 🗄️ **Banco de dados** | PostgreSQL 16 (o mesmo da Parte 1) |
 | ✉️ **E-mail** | SMTP local com MailHog/Mailpit, caixa em http://localhost:8025 |
-| 🎬 **Vídeo** | [https://youtu.be/l9SJMb_iGp8](https://youtu.be/l9SJMb_iGp8) |
+| 🎬 **Link do vídeo** | [https://youtu.be/l9SJMb_iGp8](https://youtu.be/l9SJMb_iGp8) |
 
 ---
 

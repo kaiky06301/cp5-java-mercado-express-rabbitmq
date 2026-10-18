@@ -14,7 +14,7 @@ https://github.com/kaiky06301/cp5-java-mercado-express-rabbitmq
 
 IDE UTILIZADA: IntelliJ IDEA
 
-VIDEO (YouTube nao listado, aprox. 6min30s):
+LINK DO VIDEO (YouTube nao listado, aprox. 6min30s):
 https://youtu.be/l9SJMb_iGp8
 
 CONFIGURACAO DO BANCO DE DADOS (PostgreSQL 16 - docker-compose.yml)
