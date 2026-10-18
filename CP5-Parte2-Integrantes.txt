@@ -14,8 +14,8 @@ https://github.com/kaiky06301/cp5-java-mercado-express-rabbitmq
 
 IDE UTILIZADA: IntelliJ IDEA
 
-VIDEO (.mp4, aprox. 6min30s):
-Enviado em anexo junto com esta entrega: CP5-Parte2-MercadoExpress.mp4 (6min30s)
+VIDEO (YouTube nao listado, aprox. 6min30s):
+https://youtu.be/l9SJMb_iGp8
 
 CONFIGURACAO DO BANCO DE DADOS (PostgreSQL 16 - docker-compose.yml)
 Host: localhost | Porta: 5433 | Database: mercado | Usuario: mercado | Senha: mercado123
